@@ -1,0 +1,7 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{test_papaja_files/figure-latex/plotPenguins-1.pdf}
+\caption{\label{fig:plotPenguins}These are some penguins}
+\end{figure*}

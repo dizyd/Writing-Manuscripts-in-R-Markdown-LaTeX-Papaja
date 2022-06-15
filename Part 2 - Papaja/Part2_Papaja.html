@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Workshop: Writing Manuscripts in R with Markdown and Papaja</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="David Izydorczyk" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="subfiles/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="subfiles/my-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Workshop: Writing Manuscripts in R with Markdown and Papaja
+### David Izydorczyk
+### 25.11.2021
+
+---
+
+
+
+
+
+
+
+class: heading,middle
+
+Part 2: Writing scientific articles with the [papaja](https://github.com/crsh/papaja) package
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## The papaja package
+
+- So far we learned how to use `R Markdown` to create reproducible reports
+
+- `Papaja` allows us to write an entire paper in `R`, automatically createing results, tables, graphs and references, and everything in APA-format ! 
+
+
+.center[
+&lt;img src="images/meme.jpg", width="70%"&gt;
+]
+
+
+- `Papaja`  = "Prepare APA Journal Articles"
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Note
+
+.pull-left[
+The papaja package was developed by [Frederik Aust](http://methexp.uni-koeln.de/?page_id=1603&amp;lang=de). 
+
+.center[**All credit goes to him.**]
+]
+
+.pull-right[
+&lt;img src="images/aust.jpg", width="60%"&gt;
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## The papaja  package
+
+From the [github documentation](https://crsh.github.io/papaja_man/introduction.html):
+
+"papaja is short for ‘preparing APA journal articles’ and is the name of this R package designed to create fully reproducible journal articles that seamlessly fuse statistical analyses, simulations, and prose. A manuscript written with `papaja` can be thought of as an extensively commented analysis script ready for publication in a scientific journal." 
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Installing papaja
+
+`papaja` is not yet available on CRAN but you can install it from github:
+
+
+```r
+ # Install devtools package if necessary
+if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools")
+
+# Install the stable development verions from GitHub
+devtools::install_github("crsh/papaja")
+```
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Creating a document
+.center[
+&lt;img src="images/getting_started_papaja.PNG", width="100%"&gt;
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## The document
+
+The document has the same structure as the `R Markdown` document we worked with before. It has a YAML header, a body with Markdown headings and texts and some code chunks.
+
+
+.center[
+&lt;img src="images/example_yaml.PNG", width="100%"&gt;
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## The document
+
+If you press `knit` multiple files are create in the folder you saved your .Rmd in:
+
+1. a .pdf containing the finished document
+2. a .tex file containing the `LaTeX` code used to make the pdf
+3. a .log file containing the log of the `LaTeX` distribution
+
+&lt;br&gt;
+
+.center[
+&lt;img src="images/example_files.PNG", width="70%"&gt;
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Your turn ! 
+
+- Install `papaja`
+- Create and knit your first `papaja` document
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## YAML Options
+
+From the [manual](https://crsh.github.io/papaja_man/r-markdown-components.html#body):
+
+.pull-left[
+![yaml1](images/example_yaml1.png)
+]
+.pull-right[
+![yaml2](images/example_yaml2.png)
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: heading,middle
+
+Reporting Statistical Analyses
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Reporting Statistical Analyses
+
+- One of the main advantages of `papaja` are the helper functions `printnum(), apa_print(), apa_table()` for reporting the results of your analyses
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Reporting Statistical Analyses
+
+`printnum()` converts numeric values to character strings for reporting. 
+
+.pull-left[
+
+
+```r
+# Means
+printnum(34.57927373)
+printnum(34.57927373,digits = 3)
+
+# Correlations
+printnum(0.73,gt1 = TRUE) 
+printnum(0.73,gt1 = FALSE) 
+
+# P-Values
+printp(0.8)
+printp(0.034)
+printp(0.0001)
+
+# Specific formats
+printnum(80303383839,format="e")
+printnum(80303383839,format="E")
+```
+]
+.pull-right[
+
+
+```
+## [1] "34.58"
+```
+
+```
+## [1] "34.579"
+```
+
+```
+## [1] "0.73"
+```
+
+```
+## [1] ".73"
+```
+
+```
+## [1] ".800"
+```
+
+```
+## [1] ".034"
+```
+
+```
+## [1] "&lt; .001"
+```
+
+```
+## [1] "$8.03 \\times 10^{10}$"
+```
+
+```
+## [1] "$8.03E+10$"
+```
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Reporting Statistical Analyses
+
+Example in text: 
+
+
+```r
+The mean of speed is `r  printnum(mean(cars$speed))` 
+```
+
+&amp;nbsp; becomes: The mean speed is 15.40
+
+
+or 
+
+
+```r
+The Bayes Factor is BF = `r  printnum(printnum(803033838,format="e"))` 
+```
+
+&amp;nbsp; becomes: The Bayes Factor is BF = `\(8.03 \times 10^{8}\)`
+
+
+So even if my data changes (i.e., change the model, fix an error, exclude some participants, transform the variable etc. ), you don't have to care about the reported numbers. 
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Reporting Statistical Analyses
+
+- `apa_print()` takes objects from various statistical methods to create formatted character strings to report the results in accordance with APA manuscript guidelines
+
+- `apa_print()` currently supports the following output objects
+
+![](images/example_apa_print.PNG)
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Reporting Statistical Analyses
+
+- `apa_print()`  returns a `list`-object with different reporting option, such as:
+  - estimates (e.g, *mean differences, regression coefficients*)
+  - statistics  (e.g., *t,F,df,p*)
+  - full results string (estimate + statistics)
+  - results table
+
+Example:
+
+
+```r
+fit &lt;- lm(mpg ~ hp * cyl, data = mtcars) # fit regression
+apa_print_fit = apa_print(fit) # save output of apa_print()
+```
+
+
+.pull-left[
+
+
+```r
+apa_print_fit$estimate$modelfit$r2
+```
+
+```
+## [1] "$R^2 = .78$, 90\\% CI $[0.60, 0.86]$"
+```
+
+```r
+apa_print_fit$statistic$hp
+```
+
+```
+## [1] "$t(28) = -2.47$, $p = .020$"
+```
+
+```r
+apa_print_fit$full_result$hp
+```
+
+```
+## [1] "$b = -0.17$, 95\\% CI $[-0.31, -0.03]$, $t(28) = -2.47$, $p = .020$"
+```
+]
+.pull-right[
+
+`\(R^2 = .78\)`, 90\% CI `\([0.60, 0.86]\)`
+
+&lt;br&gt;
+
+`\(t(28) = -2.47\)`, `\(p = .020\)`
+
+&lt;br&gt;
+
+`\(b = -0.17\)`, 95\% CI `\([-0.31, -0.03]\)`, `\(t(28) = -2.47\)`, `\(p = .020\)`
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Tables
+
+- `apa_print()` also allows to return a table with `apa_table()`
+
+
+```r
+fit &lt;- lm(body_mass_g ~ bill_length_mm + flipper_length_mm, data = na.omit(palmerpenguins::penguins))
+apa_print_fit &lt;-  apa_print(fit)
+
+apa_table(apa_print_fit$table,caption = "This is a regression table",note="Cool Table")
+```
+
+.center[
+&lt;img src="images/example_apatable_print.PNG", width="40%"&gt;
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Tables
+
+- You are also able to use `LaTeX` expressions if necessary
+
+
+```r
+fit &lt;- lm(body_mass_g ~ bill_length_mm + flipper_length_mm, data = na.omit(palmerpenguins::penguins))
+apa_print_fit &lt;-  apa_print(fit)
+
+apa_table(apa_print_fit$table,caption = "This is a regression table",
+*         note="$M_I$ $\\frac{3}{4}$ ", escape = FALSE)
+```
+
+.center[
+&lt;img src="images/example_apatable_print2.PNG", width="40%"&gt;
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+.pull-left[
+
+
+```r
+fit2 &lt;- lm(body_mass_g ~ bill_length_mm + flipper_length_mm + sex, data = na.omit(palmerpenguins::penguins))
+
+
+mod_comparison &lt;- apa_print(list(Baseline = fit,
+                                 Sex      = fit2),
+                            boot_samples=0)
+
+apa_table(mod_comparison$table,
+          caption = "This is a regression table",
+          note    = "Cool Table")
+```
+
+]
+
+.pull-right[
+&lt;img src="images/example_apatable_print3.PNG", width="100%"&gt;
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+.pull-left[
+
+
+```r
+fit2 &lt;- lm(body_mass_g ~ bill_length_mm + flipper_length_mm + sex, data = na.omit(palmerpenguins::penguins))
+
+
+mod_comparison &lt;- apa_print(list(Baseline = fit,
+                                 Sex      = fit2),
+                            boot_samples=0)
+
+*apa_table(mod_comparison$table[c(1:5,10:12),],
+          caption = "This is a regression table",
+          note    = "Cool Table")
+```
+
+]
+
+.pull-right[
+&lt;img src="images/example_apatable_print4.PNG", width="100%"&gt;
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Tables
+
+You can also make your own custom tables with `kable()`
+
+First we need to create a `data.frame` containing our data we want to put into the table.
+
+
+```r
+(temp0 &lt;- mtcars %&gt;% 
+        group_by(gear) %&gt;% 
+        summarize(mean = mean(mpg),
+                  sd   = sd(mpg),
+                  corr = cor.test(mpg,hp)$estimate,
+                  p    = cor.test(mpg,hp)$p.value) %&gt;%
+        as.data.frame()) # as.data.frame is only for demonstration purposes
+```
+
+```
+##   gear     mean       sd       corr            p
+## 1    3 16.10667 3.371618 -0.7389022 0.0016495333
+## 2    4 24.53333 5.276764 -0.8792697 0.0001643918
+## 3    5 21.38000 6.658979 -0.8998444 0.0374724809
+```
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Tables
+
+Now we have to bring the values in our `data.frame` in the format we want them to have.
+
+
+```r
+(temp1 &lt;-  temp0 %&gt;% 
+              mutate(mean = printnum(mean),
+                     sd   = printnum(sd), 
+                     corr = printnum(corr,gt1=FALSE),
+                     p    = printp(p))  %&gt;%
+              as.data.frame())
+```
+
+```
+##   gear  mean   sd corr      p
+## 1    3 16.11 3.37 -.74   .002
+## 2    4 24.53 5.28 -.88 &lt; .001
+## 3    5 21.38 6.66 -.90   .037
+```
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Tables
+
+
+Now we can use `kable()` to create a `LaTeX` table
+
+.pull-left[
+
+
+```r
+library(kableExtra)
+kable(temp1 ,format = "latex",booktabs=TRUE)
+```
+
+
+\begin{tabular}{rllll}
+\toprule
+gear &amp; mean &amp; sd &amp; corr &amp; p\\
+\midrule
+3 &amp; 16.11 &amp; 3.37 &amp; -.74 &amp; .002\\
+4 &amp; 24.53 &amp; 5.28 &amp; -.88 &amp; &lt; .001\\
+5 &amp; 21.38 &amp; 6.66 &amp; -.90 &amp; .037\\
+\bottomrule
+\end{tabular}
+
+]
+.pull-right[
+
+&lt;img src="images/table0.PNG", width="80%"&gt;
+
+]
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+We can align the columns and change the column names
+
+.pull-left[
+
+
+```r
+library(kableExtra)
+
+temp1 %&gt;%
+  kable(.,format    = "latex",booktabs=TRUE,
+*         align     = "c",
+*         col.names = c("Gears","$M$","$SD$",
+*                       "$r$","p"),
+*         escape    =  FALSE)
+```
+
+
+\begin{tabular}{ccccc}
+\toprule
+Gears &amp; `\(M\)` &amp; `\(SD\)` &amp; `\(r\)` &amp; p\\
+\midrule
+3 &amp; 16.11 &amp; 3.37 &amp; -.74 &amp; .002\\
+4 &amp; 24.53 &amp; 5.28 &amp; -.88 &amp; &lt; .001\\
+5 &amp; 21.38 &amp; 6.66 &amp; -.90 &amp; .037\\
+\bottomrule
+\end{tabular}
+
+]
+.pull-right[
+
+&lt;img src="images/table1.PNG", width="80%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+We can add notes and captions
+
+.pull-left[
+
+
+```r
+library(kableExtra)
+
+temp1 %&gt;%
+  kable(.,format    = "latex",booktabs=TRUE,
+          align     = "c",
+          col.names = c("Gears","$M$","$SD$",
+                        "$r$","p"),
+          caption   = "This is a caption",
+*         escape    =  FALSE) %&gt;%
+* footnote(general  = "This is a note",
+*          footnote_as_chunk = TRUE,
+*          threeparttable    = T,
+*          escape            = F,
+*          general_title     = "Note.",
+*          title_format      = c("italic"))
+```
+
+]
+.pull-right[
+
+&lt;img src="images/table2.PNG", width="100%"&gt;
+
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+Add more detail
+
+.pull-left[
+
+
+```r
+library(kableExtra)
+
+temp1 %&gt;%
+  kable(.,format    = "latex",booktabs=TRUE,
+          align     = "c",
+          col.names = c("Gears","$M$","$SD$",
+                        "$r$","p"),
+          caption   = "This is a caption",
+          escape    =  FALSE) %&gt;% 
+  footnote(general  = "This is a note", 
+           footnote_as_chunk = TRUE,
+           threeparttable    = T,
+           escape            = F, 
+           general_title     = "Note.", 
+           title_format      = c("italic")) %&gt;%
+  add_header_above(c(" " = 1,
+*                    "Estimates" = 3))
+```
+
+]
+.pull-right[
+
+&lt;img src="images/table3.PNG", width="100%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+Works even for complexe tables:
+
+.pull-left[
+
+
+```r
+library(kableExtra)
+
+df &lt;- data.frame(cond = rep(c("exp","cont"),each=10),
+                 grp  = rep(c("old","young"),times=10),
+                 rt   = rnorm(20,500,70)) %&gt;% 
+      group_by(cond,grp) %&gt;% 
+      summarize(M  = mean(rt),
+                sd = sd(rt),
+                n  = length(rt))
+
+df  %&gt;% 
+  kable(.,format    = "latex",booktabs=TRUE,
+          align     = "c",
+          col.names = c("Condition","Group","$M$","$SD$","$n$"),
+          caption   = "This is a caption",
+          escape    =  FALSE,
+*         digits    = 2) %&gt;%
+  collapse_rows(columns = 1:2,
+                latex_hline = "major",
+*               valign = "middle")
+```
+
+]
+.pull-right[
+
+&lt;img src="images/table5.PNG", width="100%"&gt;
+
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+However, some things can be very hard, for instance aligning numbers with with leading 0 at the decimal point, as the `p` column in our initial example. The "solution" in the [manual](http://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf) depends on including an additional LaTeX package in the YAML header. However, this package adds-leading-0 since the newest release and the option to turn this off, doesn't work any more .... ... .. . .. . 
+
+.pull-left[
+
+Add in YAML 
+
+
+```r
+*header-includes :
+*  - \usepackage{siunitx}
+*  - \newcolumntype{d}{S[table-format=&lt; .3,table-comparator = true]}
+```
+
+
+
+```r
+library(kableExtra)
+
+temp1 %&gt;%
+  kable(.,format    = "latex",booktabs=TRUE,
+*         align     = "ccccd",
+          col.names = c("Gears","$M$","$SD$",
+                        "$r$","p"),
+          caption   = "This is a caption") %&gt;% 
+  footnote(general  = "This is a note", 
+           footnote_as_chunk = TRUE,
+           threeparttable    = T,
+           escape            = F, 
+           general_title     = "Note.", 
+           title_format      = c("italic")) %&gt;%
+  add_header_above(c(" " = 1,"Estimates" = 3))
+```
+
+]
+.pull-right[
+
+&lt;img src="images/table40.PNG", width="100%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+Ugly possible workaround:
+
+.pull-left[
+
+
+```r
+temp1 %&gt;%
+  mutate(p = ifelse(grepl("&lt; ",p),
+*                   p, paste0("\\quad ",p))) %&gt;%
+  kable(.,format    = "latex",booktabs=TRUE,
+          align     = "ccccc", 
+          col.names = c("Gears","$M$","$SD$",
+                        "$r$","p"),
+          caption   = "This is a caption",
+          escape    =  FALSE) %&gt;% 
+  footnote(general  = "This is a note", 
+           footnote_as_chunk = TRUE,
+           threeparttable    = T,
+           escape            = F, 
+           general_title     = "Note.", 
+           title_format      = c("italic")) %&gt;%
+  add_header_above(c(" " = 1,"Estimates" = 3))
+```
+
+]
+.pull-right[
+
+&lt;img src="images/table4.PNG", width="100%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Tables
+
+Sometimes there are also additional `R` packages for specific table types compatible with `apa_table` (e.g., `corx` or `apaTables`)
+
+.pull-left[
+
+
+```r
+library(corx)
+
+cor &lt;-  palmerpenguins::penguins %&gt;%
+          select("bill length"    = bill_length_mm,
+                 "bill depth"     = bill_depth_mm,
+                 "flipper length" = flipper_length_mm,
+                 "weight"         = body_mass_g) %&gt;% 
+          corx(triangle = "lower",
+               stars    = c(0.05, 0.01, 0.001),
+               describe = c(`$M$` = mean, `$SD$` = sd)) 
+
+
+
+apa_table(cor$apa[,c(4,5,1,2,3)], 
+          caption = "Example corr matrix",
+          note    = "* p &lt; 0.05; ** p &lt; 0.01; *** p &lt; 0.001",
+          escape  = FALSE)
+```
+
+]
+.pull-right[
+
+&lt;img src="images/table6.PNG", width="100%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Your turn ! 
+
+- If not already done, create a new papaja-.Rmd document
+
+- load the [`penguins`](https://allisonhorst.github.io/palmerpenguins/) data  (`library(palmerpenguins)`)
+
+
+-  make a publication ready table with `kable()` showing the median, maximum, and minimum of `body_mass_g`  for each `species`, as well as the correlation with `bill_length_mm`
+
+- calculate a ANOVA comparing `body_mass_g` with `sex` and `island` as between factors (`aov(body_mass_g ~ sex + island, data = penguins)` ))
+
+- Report your results for one of the factors (e.g., `sex` or `island`) in the text using `apa_print()`
+
+- print the full ANOVA table using `apa_table()` 
+
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: heading,middle
+
+Plots
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Plots
+
+
+
+.pull-left[
+
+Plots can be create as in `R Markdown` before:
+
+
+```r
+library(palmerpenguins)
+
+
+penguins %&gt;% na.omit() %&gt;% 
+  ggplot(.,aes(x = flipper_length_mm, y = body_mass_g,
+               color = species, shape = species)) +
+    geom_point(size=2) 
+```
+
+![](Part2_Papaja_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+]
+
+.pull-right[
+
+`papaja` also provides a custom `ggplot` theme (`theme_apa`)
+
+
+```r
+penguins %&gt;% na.omit() %&gt;% 
+  ggplot(.,aes(x = flipper_length_mm, y = body_mass_g,
+               color = species, shape = species)) +
+    geom_point(size=2) +
+*   theme_apa()
+```
+
+![](Part2_Papaja_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Plots
+
+You can also use the custom functions `apa_beeplot(), apa_lineplot(), apa_barplot()`, and the generic `apa_factorial_plot()`
+
+.pull-left[
+
+```r
+head(penguins)
+```
+
+```
+## # A tibble: 6 x 8
+##   species island bill_length_mm bill_depth_mm flipper_length_~ body_mass_g sex  
+##   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt; &lt;fct&gt;
+## 1 Adelie  Torge~           39.1          18.7              181        3750 male 
+## 2 Adelie  Torge~           39.5          17.4              186        3800 fema~
+## 3 Adelie  Torge~           40.3          18                195        3250 fema~
+## 4 Adelie  Torge~           NA            NA                 NA          NA &lt;NA&gt; 
+## 5 Adelie  Torge~           36.7          19.3              193        3450 fema~
+## 6 Adelie  Torge~           39.3          20.6              190        3650 male 
+## # ... with 1 more variable: year &lt;int&gt;
+```
+]
+
+.pull-right[
+
+```r
+apa_beeplot(
+   data    = penguins %&gt;% mutate(ID = 1:nrow(.)),
+   id      = "ID",
+   dv      = "body_mass_g",
+   factors = c("year","island"),
+   ylab    = "Body Mass (g)",
+   xlab    = "Year")
+```
+
+![](Part2_Papaja_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Plots
+
+You can also adjust the **figure size**, **dpi**, and add a **figure caption** via the code chunk options. For instance, adding `fig.cap="These are some penguins"` to the chunk leads to : 
+
+
+.pull-left[
+
+&lt;img src="images/plot1.PNG", width="100%"&gt;
+
+] 
+
+.pull-right[
+
+&lt;img src="images/plot2.PNG", width="100%"&gt;
+
+]
+
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Your turn ! 
+
+- Plot the ANOVA you calculated before using one of the built-in plot functions (`apa_beeplot(), apa_lineplot(), apa_barplot(), apa_factorial_plot()`), or build your own plot ! 
+
+- Play around with the `fig.cap`, `fig.width`, and `fig.height` arguments in the chunk options of your plot
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: heading,middle
+
+References
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class: small
+## Cross-Referencing Figures, Tables and Equations
+
+To reference figures and tables, you can use Markdown (or LaTeX). You just have to provide a name for the code chunk which creates the table/figure. For instance if your code chunk starts with `{r resTable1}` (avoid using _), you can reference the table with `\@ref(tab:resTable1)` (or `\@ref(fig:XY)`, or `\@ref(eq:XY)`).
+
+Example:
+
+.pull-left[
+
+
+
+
+
+```r
+See Figure \@ref(fig:figureExp1).
+
+##```{r figureExp1, fig.cap = "Normal data"}
+plot(rnorm(50),rnorm(50))
+##``
+
+
+Also see Equation \@ref(eq:mean).
+
+\begin{equation}\label{eq:mean} 
+\bar{X} = \frac{\sum_{i=1}^n X_i}{n} 
+\end{equation}
+```
+]
+
+.pull-right[
+&lt;img src="images/ex_cross.PNG", width="100%"&gt;
+]
+
+
+
+
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Literature References
+
+- In order to cite articles, you need to have a bibliography in a `.bib` file
+- Your `.bib` file must contain all of your references in `BibTeX` format.
+- `BibTeX` format is just a way of defining an article’s citation information (name, authors, year, journal etc.) in a standardized way
+- Example:
+
+
+```r
+@article{rubin1996,
+  title={Multiple imputation after 18+ years},
+  author={Rubin, Donald B},
+  journal={Journal of the American statistical Association},
+  volume={91},
+  number={434},
+  pages={473--489},
+  year={1996},
+  publisher={Taylor \&amp; Francis Group}
+}
+```
+
+- Add your .bib-file in the YAML header. There can be multiple .bib-files
+
+
+```r
+bibliography      : ["r-references.bib","library.bib"]
+```
+
+- Best way to get your .bib - file is by exporting your Zotero/Citavi/etc. library,  via [Google Scholar](https://scholar.google.de/) or via [Crossref](https://search.crossref.org/).
+
+- However, sometimes you have to edit the entries still by hand (or let some Hiwi do it)
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## References
+
+Citations can be added  by using @ref syntax.
+
+Citation type |     Syntax	 | Rendered citation
+------------- |------------- | ------------- 
+Citation within parentheses	| [@rubin1996] |	(Rubin, 1996)
+Multiple citations	        |[@rubin1996; @bem2011]	|(Bem, 2011; Rubin, 1996) 
+In-text citations	          | @rubin1996	 |Rubin (1996)
+Year only	                  | [-@rubin1996]	 |(1996) 
+With pre-/postfix           | [e.g., @rubin1996, etc.] | (e.g., Rubin, 1996, etc.) 
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## References
+
+- Check out the `citr` [RStudio-addin](https://rstudio.github.io/rstudioaddins/) (also from Frederik Aust)
+
+.center[
+&lt;img src="images/addin_demo.gif", width="60%"&gt;
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Your turn ! 
+
+- Add a name to the code chunks of your tables and plots
+
+- Refer to both in text using `\@ref(...)`
+
+- Add a new citation to the `mybib.bib` file (e.g., Birnbaum, M. H. (1999), https://doi.org/10.1037/1082-989X.4.3.243)
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Quick Note: APA7
+
+This is still work in progress, see the open issue [here](https://github.com/crsh/papaja/issues/342), for some tipps. For instance:
+
+
+```r
+csl               : "apa7.csl"
+documentclass     : "apa7"
+output            : papaja::apa6_pdf
+```
+
+already goes a long way.
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Quick Note: Collaborative Working
+
+- Greatest disadvantage so far
+- Some possible solutions could be using [Github](https://github.com/) or [trackdown](https://ekothe.github.io/trackdown/)
+- However, these require some technical skills from your supervisor/PI/colleague
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Helpful references:
+
+- Markdown: https://bookdown.org/yihui/rmarkdown
+- Papaja: https://crsh.github.io/papaja_man/introduction.html#getting-started
+- Tables with Kable: https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf
+- Tables with Kable: https://cran.rstudio.com/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+- Papaja Tutorial: https://rpubs.com/YaRrr/papaja_guide
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"ratio": "16:9",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
