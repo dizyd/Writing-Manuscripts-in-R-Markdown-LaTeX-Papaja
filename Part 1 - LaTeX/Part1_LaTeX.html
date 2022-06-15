@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Writing Manuscripts in R (Markdown, LaTeX, Papaja)</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="David Izydorczyk" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="subfiles/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="subfiles/my-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Writing Manuscripts in R (Markdown, LaTeX, Papaja)
+]
+.author[
+### David Izydorczyk
+]
+.date[
+### 06.07.2022
+]
+
+---
+
+
+
+
+
+
+
+## Workshop
+
+This workshop consists of three parts:
+
+1. Introduction to `\(\LaTeX{}\)`
+1. Introduction to `R Markdown`
+2. Writing scientific articles with the [`papaja`](https://github.com/crsh/papaja) package
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Learning Goals
+
+At the end of this mini-workshop, you should ... :
+
+- ... know how to write documents in `\(\LaTeX{}\)`
+
+- ... know what `RMarkdown` is and how it works
+
+- ... know how to integrate code and data with `RMarkdown`
+
+- ... be able to write APA conform manuscripts with the `papaja`-package
+
+
+
+&lt;!-- *********** HEADING ************** --&gt;
+---
+class: heading,middle
+
+
+Part 1: Introduction to `\(\LaTeX{}\)`
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## What is `\(\LaTeX{}\)`?
+
+- `\(\LaTeX{}\)` (pronounced LAY-tek or LAH-tek) is a tool used to create professional-looking (scientific) documents.
+
+- Developed by Leslie Lamport in the 1980s as a user-friendly version of `\(\TeX{}\)` ($\TeX{}$ was developed by [Donald E. Knuth](https://de.wikipedia.org/wiki/Donald_E._Knuth)) 
+
+- `\(\LaTeX{}\)` = Lamport TeX 
+
+- Produces the resulting document on all computers and operating systems
+  
+- Separates the tasks of *writing* Text  from *formatting* it
+  - Word is *WYSIWYG*: "what you see is what you get"
+  - `\(\LaTeX{}\)` is *WYSIWYM*: "what you see is what you mean"
+  
+  
+  
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Why use `\(\LaTeX{}\)` in the first place?  
+
+`\(\LaTeX{}\)` ...
+
+- is used all over the world for scientific documents, books, as well as many other forms of publishing.
+
+- can easily create well-formatted reproducible documents including equations, tables, figures, footnotes, and references
+
+- Large number of packages add a lot if possibilities 
+
+- Easy to change the layout and formatting according to different (journal) templates
+
+- can write books, generate presentations, posters, a professional looking CV, letters,  and much more
+
+- is more fun then word
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## How to use `\(\LaTeX{}\)`
+
+To use `\(\LaTeX{}\)` you usually need:
+
+- `\(\TeX{}\)` distribution, e.g., [MiKTeX](https://miktex.org/), [MacTeX](https://tug.org/mactex/), [TinyTeX](https://yihui.org/tinytex/) (the best in combination with R)
+
+- and an editor, e.g., [TeXMaker](https://www.xm1math.net/texmaker/), [TeXWorks](https://tug.org/texworks/), [Atom](https://atom.io/), [Visual Studio Code](https://code.visualstudio.com/)
+
+
+or [Overleaf](https://www.overleaf.com/):
+
+&gt; Overleaf is an online collaborative writing and publishing tool that makes the whole process of writing, editing and publishing scientific documents much quicker and easier. Overleaf provides the convenience of an easy-to-use LaTeX editor with real-time collaboration and the fully compiled output produced automatically in the background as you type.
+
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Your turn - Getting Started 
+
+Create a blank project in Overleaf
+
+.center[
+&lt;img src="img/overleaf.png", width="90%"&gt;
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Overleaf
+
+.center[
+&lt;img src="img/overleaf1.png", width="90%"&gt;
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## `\(\LaTeX{}\)` Documents
+
+Every `\(\LaTeX{}\)` document consists of two parts, a **preamble** and the **body**
+
+.pull-left[
+
+**Preamble** defines the generall settings (e.g., general layout, document type, font, packages, author info)
+
+
+```tex
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{SMiP Workshop}
+\author{David Izydorczyk}
+\date{June 2022}
+```
+
+
+]
+
+
+.pull-right[
+
+**Body** is where you enter your main text. It is nested inside the document environment via: `\begin{document}` and `\end{document}`&lt;sup&gt;1&lt;/sup&gt; :
+
+
+```tex
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This is some text. Wow.
+
+\end{document}
+```
+
+
+]
+
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Where goes waht? Rule of thumb: Everything between `\begin{document}` and `\end{document}` is shown in the document, everything outside not]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  `\documentclass`
+
+`\documentclass` defines the type of document and the general layout. The syntax is:
+
+
+```tex
+\documentclass[options]{class}
+```
+
+**`classes`**: There are many different classes available. The most common/important are:
+
+- `article`
+- `journal`
+- `book`
+- `beamer`, for presentations
+- `apa7` (we talk about this later)
+
+But most journals offer their own specific document classes, e.g. [PNAS](https://de.overleaf.com/latex/templates/template-for-preparing-your-research-report-submission-to-pnas-using-overleaf/fzcbzjvpvnxn).
+
+**`options`**: Allows to customize the behavior of the document class, e.g.:
+
+- **font size**: `10pt`, `11pt`, `12pt`
+- **paper size**: `a4paper`, etc
+- **columns**: `onecolumn, twocolumn`
+
+
+To add multiple options: `[12pt,a4paper,twocolumn]`
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Packages
+
+Packages can be loaded with the  `\usepackage` command. As `\documentclass`, we define the package and additional options via:
+
+
+```tex
+\usepackage[options]{package}
+```
+
+
+Some must have/useful packages are: 
+
+- **`[T1]{fontenc}`**: to have ö and stuff
+- **`graphicx`**: To include 
+- **`booktabs`**: for better looking tables
+- **`tikz`**:  to creating vector graphics programmatically
+- **`amsmath`**: extends the default math related capabilities of LaTeX
+- **`amssymb`**: adds additional symbols and fonts for formulas.
+- **`[style=apa]{biblatex}`**: for citations
+- **`hyperref`**: makes contents, references, URLs and citation all become clickable in the resulting PDF
+- **`caption`**: for figure and table captions
+- **setspace**: to change spacing between lines (`\doublespacing`, `\onehalfspacing`)
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Comments
+
+.pull-left[
+
+
+When there is syntax there shall be comments !
+
+
+```tex
+% this is a comment in LaTeX
+```
+
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/moses.jpg", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Additional useful stuff in the preamble:
+
+Author and Article Informations:
+
+- `\title{Das ist ein Titel}`
+- `\shorttitle{Kurztitel}`
+- `\author{Manuela Musterman}`
+- `\affiliation{Universität Mannheim}`
+
+When using `apa7` class:
+
+- `\abstract{Hier kommt der Abstract rein.}`
+- `\keywords{APA style, demonstration}`
+
+
+Other things:
+
+- `\graphicspath{{figures/}}`: Default path of figures 
+- `\newcommand{\x}{\boldsymbol{x}}`: Define custom commands 
+
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Headers - Structuring your document:
+
+You can structure your document with:
+
+.pull-left[
+
+
+```tex
+\section{Introduction}
+\subsection{Working Memory}
+\subsubsection{Visual Working Memory}
+\paragraph{Oberauer (2020)}
+\subparagraph{Experiment 1}
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/structure.png", width="90%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Your turn!
+
+- Create the outline of a general scientific article using the different header options
+
+- fill in some text (you can copy this one: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.)
+
+- play around with some of the document classes and class options.
+
+- Adjust the title, author name etc.
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Text formatting
+
+.pull-left[
+
+
+```tex
+This is \textbf{some bold text} 
+
+This is \textit{italic text}
+
+This is \underline{very important}
+
+Look at \textcolor{blue}{this}
+
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/tf1.png", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Sizing
+
+.pull-left[
+
+
+```tex
+This is normal text 
+
+ \LARGE{ This is LARGE text}
+
+ \Large{ This is Large text}
+
+ \large{ This is large text}
+
+ \small{ This is small text}
+
+ \footnotesize{ This is footnote-size text}
+
+ \tiny{This is tiny text}
+
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/tf2.png", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Alignment
+
+
+
+```tex
+\begin{center} Center aligned \end{center}
+
+\begin{flushright} right aligned text \end{flushright}
+
+\begin{flushleft} left aligned text \end{flushleft}
+```
+
+
+
+
+&lt;img src="img/tf3.png", width="90%"&gt;
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Line breaks 
+
+Line breaks in `\(\LaTeX{}\)` work a little bit different than in Word. If you only hit `Enter` once, there will be no linebreak in the PDF, but *only* in your editor. 
+
+To insert a linebreak, you can either hit `Enter` twice, use `\\`, or `\newline`. 
+
+To add more space you can use  `\vspace{2cm}`
+
+
+&lt;img src="img/tf4.png", width="100%"&gt;
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Unordered lists 
+
+.pull-left[
+
+
+```tex
+\begin{itemize}
+  \item Tomatoes
+  \item Coffee
+\end{itemize}
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/lists1.png", width="90%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Ordered lists 
+
+.pull-left[
+
+
+```tex
+\begin{enumerate}
+  \item Dogs
+  \item Cats
+\end{enumerate}
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/lists2.png", width="90%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Footnotes
+
+.pull-left[
+
+
+```tex
+Lorem ipsum dolor sit amet 
+\footnote{However, this is a footnote}
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/fn1.png", width="90%"&gt;
+
+&lt;img src="img/fn2.png", width="90%"&gt;
+
+]
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Your turn!
+
+- Apply some of the text formattings to your text
+
+- Insert some linebreaks
+
+- Add a list
+
+- Add two footnotes
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Equations
+
+.pull-left[
+
+- Equations are the main selling point of `\(\LaTeX{}\)`
+
+- [Here](https://www.caam.rice.edu/~heinken/latex/symbols.pdf) you can find a basic overview of available symbols and how to write equations. We will cover only the most important things.
+
+- There are two main ways to include equations and mathematical symbols: **inline** or **standalone**
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/eq.jpg", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Inline Equations
+
+
+
+.pull-left[
+
+ You can write inline equations (i.e. in the normal lines of text) by activating the math mode:
+ 
+.center[`$ ... $`]
+ 
+]
+
+
+.pull-right[
+
+&lt;img src="img/eq2.jpg", width="90%"&gt;
+
+]
+
+
+---
+class: small
+##  Inline Equations
+
+
+
+Examples:
+
+.pull-left[
+
+ 
+ ```tex
+ explained variance was $R^{2} = 0.96$
+ 
+ 
+ MCMC chains converged with $\hat{R} \leq 1.01$
+ 
+ 
+ With 32 stimuli there are $\frac{32 \times (32-1)}{2} = 496$ pairwise similarity ratings
+ 
+ 
+ The memory parameter $\theta$ had a Beta(1,1) prior. 
+ 
+ 
+ The posterior probability of Model 1 was $p(\mathcal{M}_1|D) = .5$
+ ```
+ 
+]
+
+
+.pull-right[
+
+&lt;img src="img/eq3.PNG", width="90%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Standalone Equations
+
+To write standalone equations you can use the `equation` environment (or `equation*` for unnumbered equations from the `amsmath` package). Example:
+
+.pull-left[
+
+ 
+ ```tex
+ \begin{equation} 
+ d_{pe} = \sqrt{\sum_{k = 1}^{n_k} (p_k - e_k)^2 }
+ \end{equation}
+ 
+ 
+ 
+ \begin{equation*} 
+ s_{pe} = e^{-cd_{pe}}
+ \end{equation*}
+ 
+ ```
+ 
+]
+
+
+.pull-right[
+
+&lt;img src="img/eq4.PNG", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Aligned Equations
+
+To align equations on `=` we need to use the `align` environment from the `amsmath` package
+
+
+.pull-left[
+
+ 
+ ```tex
+ \begin{align
+ 
+ Y_i &amp;= b_0 + b_1 \times X_i \\
+ 
+ b_0 &amp;\sim Normal(0,10) \\
+ 
+ b_1 &amp;\sim Normal(0,1) 
+ 
+ \end{align}
+ 
+ ```
+ 
+]
+
+
+.pull-right[
+
+&lt;img src="img/eq5.PNG", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Your turn
+
+Implement all three equations shown below (tip: check out `\overbrace{}_\text{}`)
+
+
+.pull-left[
+
+&lt;img src="img/ex1.PNG", width="80%"&gt;
+
+&lt;br&gt;
+&lt;br&gt;
+
+
+&lt;img src="img/ex2.PNG", width="80%"&gt;
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/ex3.PNG", width="80%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Mathpix Snipping Tool:
+
+&lt;img src="img/mathpix.PNG", width="90%"&gt;
+
+
+---
+##  Figures
+
+We can add figures using the `figure` environment and the `\includegraphics{}` function. Overleaf automatically adds some additional stuff when we create the `figure` environment, e.g., it centers the image (`\centering`), adds a caption below the figure (`\caption`), and a label (`\label`, we talk about that later). 
+
+We also need to load `\usepackage{graphicx}`
+
+.pull-left[
+
+ 
+ ```tex
+ \begin{figure}
+ 
+    \centering
+    
+    \includegraphics[scale = 0.75]{plot1.png}
+    
+    \caption{Caption}
+    
+    \label{fig:my_label}
+    
+ \end{figure}
+ 
+ ```
+ 
+]
+
+
+.pull-right[
+
+&lt;img src="img/fig1.PNG", width="90%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Your turn
+
+Upload and add two figures to your document.
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Lets talk about floats
+
+- floating objects can be annoying
+
+- Figures and tables float within the text: `\(\LaTeX{}\)` puts them in the best-fitting spot itself (which doesn't has to be the place where it is in your editor)
+
+- Most of the times this works, if not, you can use the placement specifier options `\begin{figure}[htpb!]`. From overleaf:
+
+| Specifier | Permission                                                                                                                                                                                                                       |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| h         | Place the float here, i.e., approximately at the same point it occurs in the source text (however, not exactly at the spot)                                                                                                      |
+| t         | Position at the top of the page.                                                                                                                                                                                                 |
+| b         | Position at the bottom of the page.                                                                                                                                                                                              |
+| p         | Put on a special page for floats only.                                                                                                                                                                                           |
+| !         | Override internal parameters LATEX uses for determining "good" float positions.                                                                                                                                                  |
+| H         | Places the float at precisely the location in the LATEX code. Requires the float package (\usepackage{float}). This is somewhat equivalent to h!, though some errors may arise if you have too many consecutive floats with [H]. |
+
+
+(I mostly just use [H])
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Tables
+
+Tables in `\(\LaTeX{}\)` can be very hard. But lets have a look. The general syntax is the same as for figures:
+
+
+ 
+ ```tex
+ \begin{table}
+ 
+    \centering
+    \caption{Caption}
+    
+    ...
+    
+    
+    \label{fig:my_label}
+    
+ \end{table}
+ 
+ ```
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Tables
+
+However, instead of just including a figure with `\includegraphics{}`, we have to built our table within the `tabular` environment (but wait for Part 3 today!).
+
+The basics: 
+- `\\` for row
+- `&amp;` for column
+- different lines (`\toprule, \midrule, \bottomrule`) from the `booktabs` package
+- `\begin{tabular}{ccc}`: **c**enter alignment of all three columns (`l`for left, `r` for right)
+
+.pull-left[
+
+ 
+ ```tex
+   
+ \begin{tabular}{ccc}
+    \toprule
+    
+    Exp &amp; $M$ &amp; $SD$ \\
+    
+    \midrule
+    
+    Exp. 1 &amp; 16.10 &amp; 3.37\\
+    Exp. 2 &amp; 24.53  &amp; 5.24\\
+    Exp. 3 &amp; 21.38  &amp; 6.65\\
+    
+    \bottomrule
+ \end{tabular}
+ 
+ ```
+ 
+]
+
+
+.pull-right[
+
+&lt;img src="img/tab1.PNG", width="90%"&gt;
+
+]
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Tables
+
+Tables can also be more complicated:
+
+.pull-left[
+
+ 
+ ```tex
+ \toprule
+   
+ Exp. &amp; \multicolumn{3}{c}{Parameters} \\
+    
+ &amp; Drift rate ($\delta$) &amp;
+ Starting bias ($z$) &amp;
+ Non-decision time ($\tau$) \\
+    
+ \midrule
+    
+ 1 &amp; 0.50 &amp; .67 &amp; 5 \\
+ 2 &amp; 0.54 &amp; .32 &amp; 2 \\
+ 3 &amp; 0.74 &amp; .01 &amp; 4 \\
+    
+ \bottomrule
+ 
+ ```
+ 
+]
+
+
+.pull-right[
+
+&lt;img src="img/tab2.PNG", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+class:small
+##  Table Notes
+
+We can add table notes with using functions from `\usepackage[flushleft]{threeparttable}`:
+
+.pull-left[
+
+ 
+ ```tex
+ \begin{table}[h!]
+ 
+ \begin{threeparttable}
+ 
+ ...
+ 
+ \begin{tabular}{cccc}
+ 
+ ...
+ 
+ \end{tabular}
+ \begin{tablenotes}[para]
+ 
+ \item \textit{Note.} 
+ \item Parameter were estimated with ....
+ 
+ \end{tablenotes}
+ \end{threeparttable}
+ \end{table}
+ 
+ ```
+
+]
+
+.pull-right[
+
+&lt;img src="img/tab3.PNG", width="90%"&gt;
+
+]
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Your turn!
+
+Implement the following table:
+
+.center[
+&lt;img src="img/ex4.PNG", width="60%"&gt;
+]
+
+You don't need to implement all the rows and the complete note.
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Referencing Figures and Tables in text
+
+Lets talk about `\label`. When you label your figures and tables, 
+
+- they get automatically numbered
+- you can reference them in the text using `ref{fig:label}`/`ref{tab:label}`, so you don't have to care about the correct referencing even when you add/delete/rearrange tables or figures.
+
+Example:
+
+
+.pull-left[
+
+ 
+ ```tex
+ \begin{figure}
+    \centering
+    \includegraphics[scale = 0.75]{plot1.png}
+    \caption{Caption}
+    \label{fig:my_label}
+ \end{figure}
+ 
+ 
+ The average mouse trajectories are
+ shown in Figure~\ref{fig:my_label}
+ 
+ ```
+
+]
+
+.pull-right[
+
+&lt;img src="img/ref1.PNG", width="90%"&gt;
+
+]
+
+`~` prevents linebreak between Figure and 1 (not necessary in this example)
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Citations and References
+
+Citations are another advantage of `\(\LaTeX{}\)`, since it is able to automatically generate citations and bibliographies. What we need:
+
+- a package (`\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber]{biblatex}`, nyt = name, year, title)
+
+- a bibliography in a `.bib` file with entries in `BibTex` format
+
+- telling `\(\LaTeX{}\)` where your `.bib` is with `\addbibresource{}`
+
+- printing your references at the end of your document `\printbibliography`
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  `.bib`
+
+`BibTeX` format is just a way of defining an article’s citation information (name, authors, year, journal etc.) in a standardized way. Example:
+
+
+```r
+@article{rubin1996,
+  title={Multiple imputation after 18+ years},
+  author={Rubin, Donald B},
+  journal={Journal of the American statistical Association},
+  volume={91},
+  number={434},
+  pages={473--489},
+  year={1996},
+  publisher={Taylor \&amp; Francis Group}
+}
+```
+
+
+- Best way to get your .bib - file is by exporting your Zotero/Citavi/etc. library,  via [Google Scholar](https://scholar.google.de/) or via [Crossref](https://search.crossref.org/).
+
+- However, sometimes you have to edit the entries still by hand (or let some Hiwi do it)
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Citing
+
+&lt;img src="img/cite1.PNG", width="100%"&gt;
+
+Only citations which appear in the text, are added to the references
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Your turn !
+
+Add the bibtex entries of your two favorite papers/books to your `.bib`-file and then cite them in your text !
+
+You might have to Google how to add books or formats other then articles
+
+
+
+
+
+
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  APA7 
+
+You can most of your APA7 formatting done by changing your document class to: `\documentclass[man,floatsintext]{apa7}`, our you load the [template](https://de.overleaf.com/latex/templates/template-and-sample-for-authoring-apa7-manuscripts/pvhtwcrvcmsp) from Overleaf. 
+
+
+You can get APA7 conform figures (captions above figure, note below it) like this:
+
+ 
+ ```tex
+ 
+ \usepackage[labelsep=newline,labelfont=bf]{caption}
+ 
+ ...
+ 
+ \begin{figure}
+ \centering
+ \caption{\label{fig:ahExp}Results of the availability heuristic experiment.}
+ \includegraphics[width=1\textwidth]{plot2.png}
+ \caption*{\footnotesize{\textit{Note. }\textnormal{Results of the three-dimensional....}}}
+ \end{figure}
+ ```
+
+For more in formations about the `apa7` class, see [here](https://ctan.math.washington.edu/tex-archive/macros/latex/contrib/apa7/apa7.pdf)
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Your turn !
+
+Make your document submission ready ! Try changing `man` to `jou`, `stu`, `doc`, or adding `draftall` to the document class options.
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Tikz
+
+You can also make vector graphics in `\(\LaTeX{}\)` (if you really want to suffer like me)
+
+
+&lt;img src="img/tikz.PNG", width="100%"&gt;
+
+
+If you really want to do this, you can start 
+- [here](https://www.youtube.com/watch?v=bQugbYq0BVA)
+- [or here](https://de.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing)
+
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+##  Working with colleagues
+
+In summary: meh.
+
+- You can invite colleagues to your Overleaf projects (but only one with the free plan). 
+
+- In the premium plan there is even a [track changes feature](https://de.overleaf.com/learn/how-to/Track_Changes_in_Overleaf) similar to word (there are [student plans](https://de.overleaf.com/user/subscription/plans) available)
+
+- Otherwise you are left with Github
+
+- Use [`latexdiff`](https://de.overleaf.com/learn/latex/Articles/Using_Latexdiff_For_Marking_Changes_To_Tex_Documents) to compare versions of your documents
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## Helpful references:
+
+- https://de.overleaf.com/learn/latex/Free_online_introduction_to_LaTeX_(part_1)
+- https://web.mit.edu/rsi/www/pdfs/new-latex.pdf
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"ratio": "16:9",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
