@@ -1,8 +1,8 @@
-# Workshop: Writing Manuscripts in R with Markdown and Papaja
+# Workshop: Writing Manuscripts in R using LaTeX, R Markdown, and `papaja`
 
-This repository contains the materials for the workshop **Workshop: Writing Manuscripts in R with Markdown and Papaja**. 
+This repository contains the materials for the workshop **Writing Manuscripts in R using LaTeX, R Markdown, and `papaja`**. 
 
-The workshop consists of two parts:
+The workshop consists of three parts:
 
 - Introduction to $\LaTeX{}$
 - Introduction to `R Markdown`
@@ -57,9 +57,9 @@ if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools")
 # Install the stable development verions from GitHub
 devtools::install_github("crsh/papaja")
 ```
-## For $\LaTeX{}$: Register @Overleaf
+## For LaTeX: Register @Overleaf
 
-Please register an account at https://www.overleaf.com/, which we will use in the $\LaTeX{}$ part we will use 
+Please register an account at https://www.overleaf.com/, which we will use in the $\LaTeX{}$ part 
 
 <br>
 <br>
