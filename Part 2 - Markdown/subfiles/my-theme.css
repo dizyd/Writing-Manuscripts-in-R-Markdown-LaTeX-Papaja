@@ -15,7 +15,7 @@
   float: right;
   width: 70%;
 }
-.small-code .remark-code { 
+.small-code .remark-code {
     font-size: 70%;
 }
 .small h1, h2, h3 {
@@ -23,7 +23,7 @@
   margin-bottom: 5px;
 }
 
-.small .remark-code { 
+.small .remark-code {
     font-size: 70%;
 }
 
@@ -32,7 +32,7 @@
   /* background: #e7e8e2; /* darker */
   border-radius: 2px;
   padding: 2px;
-} 
+}
 
 /* color of headings + line below*/
 .h1,h2,h3{
@@ -42,6 +42,8 @@
   width:100%;
   padding-bottom:3px;
   margin-bottom: 10px;
+  font-family: 'Lato';
+  font-weight: normal;
 }
 
 
@@ -49,9 +51,14 @@
 .inverse h1, .inverse h2, .inverse h3 {
   color: #f3f3f3;
   border-bottom: none;
+
 }
 
 
+.title h1{
+  font-family: 'Lato';
+  font-weight: normal;
+}
 
 
 
@@ -68,6 +75,7 @@ a, a > code {
   border-bottom: 0;           /* no border */
   font-size: 350%;            /* large text size */
   text-align: center;         /* center text */
+  font-family: 'Lato';
 }
 
 /* do not show slide number on heading slides */

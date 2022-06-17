@@ -1,11 +1,11 @@
 ---
-title: "Writing Manuscripts in R (Markdown, LaTeX, Papaja)"
+title: "Writing Manuscripts in R using LaTeX, R Markdown, and `papaja`"
 author: "David Izydorczyk"
 date: "06.07.2022"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts","subfiles/my-theme.css","subfiles/my-fonts.css","xaringan-themer.css"]
+    css: ["default", "default-fonts","../subfiles/my-theme.css","../subfiles/my-fonts.css","xaringan-themer.css"]
     nature:
       highlightStyle: github
       ratio: "16:9"

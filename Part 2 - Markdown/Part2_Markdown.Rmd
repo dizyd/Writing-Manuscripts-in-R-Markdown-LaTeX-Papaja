@@ -1,7 +1,7 @@
 ---
-title: "Workshop: Writing Manuscripts in R with Markdown and Papaja"
+title: "Writing Manuscripts in R using LaTeX, R Markdown, and `papaja`"
 author: "David Izydorczyk"
-date: "18.11.2021"
+date: "06.07.2022"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -14,8 +14,9 @@ output:
 ---
 
 ```{r setup, include=FALSE, message = FALSE, warning=FALSE}
-options(htmltools.dir.version = FALSE)
+options(htmltools.dir.version = FALSE,  htmltools.preserve.raw = FALSE)
 
+library(xaringan)
 library(tidyverse)
 library(kableExtra)
 library(DT)
@@ -28,35 +29,9 @@ library(plotly)
 
 
 
-
-## Workshop
-
-This mini-workshop consists of two parts:
-
-1. Introduction to R Markdown
-2. Writing scientific articles with the [papaja](https://github.com/crsh/papaja) package
-
-
-<!-- *********** NEW SLIDE ************** -->
----
-## Learning Goals
-
-At the end of this mini-workshop, you should ... :
-
-- ... know what `RMarkdown` is and how it works
-
-- ... know how to integrate code and data with `RMarkdown`
-
-- ... be able to write APA conform manuscripts with the `papaja`-package
-
-
-
-<!-- *********** HEADING ************** -->
----
 class: heading,middle
 
-
-Part 1: Introduction to R Markdown
+Part 2: Introduction to R Markdown
 
 
 
@@ -66,7 +41,7 @@ Part 1: Introduction to R Markdown
 
 - `R Markdown` makes it easy to combine the power of `R` with the simplicity of Markdown documents
 
-- `R` code and interpretations integrated into a single reproducible document, which can be easily shared
+- `R` code and interpretations integrated into a single reproducible document, which works across platforms and can be easily shared
   - with your collaborators/colleagues
   - on OSF
   - or for your later self
@@ -147,7 +122,7 @@ output: html_document
 
 - `YAML` Stands for "YAML Ain't Markup Language"
 - This is where you set options for your overall document
-- See the Cheat-Sheet or https://rmarkdown.rstudio.com/html_document_format.html
+- See the Cheat-Sheet or [here](https://rmarkdown.rstudio.com/html_document_format.html)
 
 <!-- *********** NEW SLIDE ************** -->
 ---
@@ -310,7 +285,7 @@ Text Formatting
 ---
 ## Sections 
 
-See also the Cheat-Sheet and https://rmarkdown.rstudio.com/authoring_basics.html
+See also the Cheat-Sheet and [here](https://rmarkdown.rstudio.com/authoring_basics.html)
 
 .pull-left[
 Levels of Headings
@@ -511,18 +486,6 @@ Visual Markdown Editor - on
 ]
 
 
-<!-- *********** NEW SLIDE ************** -->
----
-## Now it's your turn !
-
-- Create an RMarkdown document
-- Play around with some YAML header options
-- Write some text, put in some tables, images etc.
-
-
-
-
-
 
 <!-- *********** HEADING ************** -->
 ---
@@ -577,14 +540,6 @@ $ M_{age} = `r demo[,"age"] %>% mean() %>% round()`$)
 Our final sample consisted of $n$ = `r nrow(demo)` participants (`r mean(demo$gender=="female")*100` % female, $M_{age} = `r demo[,"age"] %>% mean() %>% round(2)`$)
 
 
-
-
-<!-- *********** NEW SLIDE ************** -->
----
-## Now it's your turn !
-
-- Try to write some inline R code (you can use the R-intern data.frames like `sleep`, `mtcars`, or `chickwts`)
-- Combine it with `LaTeX` math-expressions ($)
 
 
 
@@ -749,12 +704,12 @@ kable(head(iris,10),format="markdown")  # or format = latex if output: pdf_docum
 
 With  `datatable()` from the [DT package](/https://rstudio.github.io/DT/) : 
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 library(DT)
 DT::datatable(head(iris,10),
-          filter  = list(position = 'top'),
-          options = list(
-            lengthMenu = list(c(2, 3 , -1), c('2', '3',  'All')), pageLength = 3
+          filter     = list(position = 'top'),
+          options    = list(
+          lengthMenu = list(c(2, 3 , -1), c('2', '3',  'All')), pageLength = 3
           ))
               
 ```
@@ -800,13 +755,6 @@ output:
 <img src="images/example_paged1.png", width="50%">
 ]
 
-
-<!-- *********** NEW SLIDE ************** -->
----
-## Now it's your turn !
-
-- Add a code chunk reading in the `sleep.csv` data from the `Data` folder
-- Print the data using either `kable`, `data.table`, or `df_print: paged`
 
 
 <!-- *********** NEW SLIDE ************** -->
@@ -855,7 +803,7 @@ summary(results)
 Every plot you make in R will just appear in your knitted RMarkdown document
 
 
-```{r fig.height=3, fig.width= 4, dev='svg'}
+```{r fig.height=3, fig.width= 4, dev='svg', fig.align='center'}
 
 sleep %>% 
   ggplot(aes(x=group,y=extra)) +
@@ -865,6 +813,7 @@ sleep %>%
     labs(y = "increase in hours of sleep")
 
 ```
+
 
 <!-- *********** NEW SLIDE ************** -->
 ---
@@ -913,14 +862,42 @@ ggplotly(p) #<<
 
 ]
 
+
 <!-- *********** NEW SLIDE ************** -->
 ---
-## Now it's your turn !
+## Make gifs with  [gganimate](https://gganimate.com/) 
 
-- Make some nice plots in R 
-- Play around with the chunk options
-- Maybe try changing the `output: ... ` part in the YAML header to test out different output formats 
 
+```{r gif, cache =TRUE}
+library(gganimate)
+
+N      = 500
+pHeads = 0.5
+ 
+flipSequence <- sample(x=c(0,1),prob = c(1-pHeads,pHeads),size=N,replace=T)
+flip_data    <- data.frame(run=1:N,prop=cumsum(flipSequence)/1:N)
+
+g <- ggplot(flip_data,aes(x=run,y=prop,frame=run)) +
+      geom_line(size=1)+
+      geom_segment(aes(xend = N-20, yend = prop), linetype = 2, colour = 'grey') + 
+      geom_point(aes(x = run),color = "tomato1",size = 2) + 
+      geom_text(aes(x = N-20, label = round(prop,2)), hjust = 0) +
+      xlim(1,500)+ylim(0.0,1.0)+
+      geom_hline(yintercept = pHeads)+
+      ggtitle("Running Proportion Heads of Unbiased Coin")+
+      ylab("Proportion of Heads")+
+      xlab("Flip Number") +
+      theme_bw()+
+      transition_reveal(run) +
+      coord_cartesian(clip = 'off') 
+
+```
+
+---
+
+```{r}
+animate(g, height = 400, width = 700,nframes=50,fps=10)
+```
 
 
 <!-- *********** NEW SLIDE ************** -->
@@ -965,6 +942,46 @@ rnorm(100,m,5) %>% as.data.frame %>%
 ```
 
 
+
+
+
+
+<!-- *********** NEW SLIDE ************** -->
+---
+## Now it's your turn !
+
+Create an `RMarkdown` file and delete everything execpt the YAML header and the setup chunk
+
+Create the following section structure:
+  1. Setup
+    1.1 Packages 
+    1.2 Data
+  2. Summary
+  3. Plot
+  
+Load the `ggplot2` package (`library(ggplot2)`) in a code chunk in the `1.1 Package` section you just created
+
+Load the [weight lifting data](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-10-08#readme) from the data folder in a code chunk in the `Data` section (`read.csv("Part 1 - Markdown/Data/weight_lifting.csv"")`). See [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-10-08#readme) for a description of the variables.
+
+Print the top of the dataframe (`data[1:5,]`)) in a code chunk in the `Summary` section, try using `datatable()` or  `kable()` (maybe you need to install the `DT` and the `kableExtra` packages first).
+
+Compute some summaries or linear regression (e.g. using `summary()/lm()`) for some variables you are interested in, in a code chunk in the `Summary` section.
+
+<!-- *********** NEW SLIDE ************** -->
+---
+## Now it's your turn !
+
+Write some text describing the results using some of the text formatting options and inline R-code. 
+
+Write some math expressions with `LaTeX`. 
+
+Plot the `best3bench_kg` of participants by their age (`age`) or anything else that you are interested in, e.g. by using `ggplot(data,aes(x = age, y = best3bench_kg))+geom_point()`. **Note** the data contain many NAs, so use `na.rm=TRUE` when you aggregate.
+
+Try using `ggplotly`.
+
+Play around with YAML options, add some table of content, change the output format.
+
+Play around with the chunk options, what happens if you set a chunk to `echo=FALSE` or `include = FALSE` ? 
 
 
 

@@ -1,0 +1,31 @@
+---
+title: "Untitled"
+author: "David Izydorczyk"
+date: "22 4 2020"
+output: html_document
+runtime: shiny
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+inputPanel(
+  numericInput("Mean"  , label = "Mean" ,value = 0)
+)
+```
+
+
+```{r}
+
+renderPlot({
+m   <- input$Mean
+rnorm(100,m,5) %>% as.data.frame %>% 
+ ggplot(aes(x=.)) +
+  geom_histogram(aes(y=..density..)) +
+  geom_density(aes(y=..density..),fill="tomato1",alpha=0.4) +
+  theme_bw()
+})
+```
+
+
+
