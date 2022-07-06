@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Writing Manuscripts in R (Markdown, LaTeX, Papaja)</title>
+    <title>Writing Manuscripts in R using LaTeX, R Markdown, and papaja</title>
     <meta charset="utf-8" />
     <meta name="author" content="David Izydorczyk" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="subfiles/my-theme.css" type="text/css" />
-    <link rel="stylesheet" href="subfiles/my-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="../subfiles/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../subfiles/my-fonts.css" type="text/css" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -16,7 +16,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Writing Manuscripts in R (Markdown, LaTeX, Papaja)
+# Writing Manuscripts in R using LaTeX, R Markdown, and <code>papaja</code>
 ]
 .author[
 ### David Izydorczyk
@@ -187,8 +187,25 @@ This is some text. Wow.
 ]
 
 
-.footnote[&lt;sup&gt;1&lt;/sup&gt; Where goes waht? Rule of thumb: Everything between `\begin{document}` and `\end{document}` is shown in the document, everything outside not]
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Where goes what? Rule of thumb: Everything between `\begin{document}` and `\end{document}` is shown in the document, everything outside not]
 
+
+&lt;!-- *********** NEW SLIDE ************** --&gt;
+---
+## `\(\LaTeX{}\)` Syntax
+
+.center[
+
+
+```tex
+
+\functionname[additional options]{main input}
+
+```
+
+
+
+]
 
 &lt;!-- *********** NEW SLIDE ************** --&gt;
 ---
@@ -235,9 +252,9 @@ Packages can be loaded with the  `\usepackage` command. As `\documentclass`, we 
 Some must have/useful packages are: 
 
 - **`[T1]{fontenc}`**: to have ö and stuff
-- **`graphicx`**: To include 
+- **`graphicx`**: To include figures
 - **`booktabs`**: for better looking tables
-- **`tikz`**:  to creating vector graphics programmatically
+- **`tikz`**:  to creating vector graphics programmatically (! only if you like to suffer)
 - **`amsmath`**: extends the default math related capabilities of LaTeX
 - **`amssymb`**: adds additional symbols and fonts for formulas.
 - **`[style=apa]{biblatex}`**: for citations

@@ -174,8 +174,24 @@ This is some text. Wow.
 ]
 
 
-.footnote[<sup>1</sup> Where goes waht? Rule of thumb: Everything between `\begin{document}` and `\end{document}` is shown in the document, everything outside not]
+.footnote[<sup>1</sup> Where goes what? Rule of thumb: Everything between `\begin{document}` and `\end{document}` is shown in the document, everything outside not]
 
+
+<!-- *********** NEW SLIDE ************** -->
+---
+## $\LaTeX{}$ Syntax
+
+.center[
+
+```{tex,eval=FALSE}
+
+\functionname[additional options]{main input}
+
+```
+
+
+
+]
 
 <!-- *********** NEW SLIDE ************** -->
 ---
@@ -220,9 +236,9 @@ Packages can be loaded with the  `\usepackage` command. As `\documentclass`, we 
 Some must have/useful packages are: 
 
 - **`[T1]{fontenc}`**: to have ö and stuff
-- **`graphicx`**: To include 
+- **`graphicx`**: To include figures
 - **`booktabs`**: for better looking tables
-- **`tikz`**:  to creating vector graphics programmatically
+- **`tikz`**:  to creating vector graphics programmatically (! only if you like to suffer)
 - **`amsmath`**: extends the default math related capabilities of LaTeX
 - **`amssymb`**: adds additional symbols and fonts for formulas.
 - **`[style=apa]{biblatex}`**: for citations
